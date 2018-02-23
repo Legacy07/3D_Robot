@@ -9,6 +9,7 @@
         <script type="text/javascript" src="../libs/jquery.js"></script>
         <script type="text/javascript" src="../libs/stats.js"></script>
         <script type="text/javascript" src="../libs/dat.gui.js"></script>
+        <script type="text/javascript" src="../libs/keypress.js"></script>
         <style>
             body{
                 /* set margin to 0 and overflow to hidden, to go fullscreen */
@@ -53,12 +54,17 @@
                 renderer.shadowMap.enabled = true;
 
 //                // create the ground geometry 
-                var groundGeometry = new THREE.PlaneGeometry(80, 500);
+                var groundGeometry = new THREE.PlaneGeometry(80, 500, 40, 250);
                 //set ground color and is affected by the light
-                var groundMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, side: THREE.DoubleSide});
+                //var groundMaterial = new THREE.MeshBasicMaterial({color: 0xffffff, overdraw: true, side: THREE.DoubleSide});
 
                 //initiliase the ground 
-                var ground = new THREE.Mesh(groundGeometry, groundMaterial);
+                var ground = THREE.SceneUtils.createMultiMaterialObject(groundGeometry,
+                        [new THREE.MeshLambertMaterial({wireframe: true, overdraw: true, color: 000000}),
+                            new THREE.MeshLambertMaterial({color: 0x00ff00, transparent: true, opacity: 0.5}
+
+                            )
+                        ]);
                 //allow to have shadows on it
                 ground.receiveShadow = true;
                 // rotate and position the plane
@@ -68,17 +74,19 @@
 
                 //group body
                 var groupBody = new THREE.Group();
-                //group arm 
+                //group arms 
                 var groupRightArm = new THREE.Group();
                 var groupLeftArm = new THREE.Group();
-
+                //group legs 
+                var groupRightLeg = new THREE.Group();
+                var groupLeftLeg = new THREE.Group();
 
                 //create robot head, hands and feet
                 var robotHead = createRobot(new THREE.TorusGeometry(1, 2, 9, 16, 3));
                 var robotLeftHand = createRobot(new THREE.TorusGeometry(0.5, 2, 4, 20, 6));
                 var robotRightHand = createRobot(new THREE.TorusGeometry(0.5, 2, 4, 20, 6));
-                var robotRightFoot = createRobotFeet(new THREE.TorusKnotGeometry(1, 1, 139, 16, 2, 5, 5));
-                var robotLeftFoot = createRobotFeet(new THREE.TorusKnotGeometry(1, 1, 139, 16, 2, 5, 5));
+                var robotRightFoot = createRobotFeet(new THREE.TorusKnotGeometry(0.7, 0.7, 139, 16, 2, 5, 10));
+                var robotLeftFoot = createRobotFeet(new THREE.TorusKnotGeometry(0.7, 0.7, 139, 16, 2, 5, 10));
                 //robot body
                 var robotBody = createRobot(new THREE.CylinderGeometry(5, 2, 11, 8, 20));
                 //robot shoulders
@@ -89,6 +97,15 @@
                 var robotUpperRightArm = createRobot(new THREE.CylinderGeometry(2, 1, 5, 20));
                 var robotLowerRightArm = createRobot(new THREE.CubeGeometry(3, 4, 3, 10, 10));
                 var robotLowerLeftArm = createRobot(new THREE.CubeGeometry(3, 4, 3, 10, 10));
+                //robot legs
+                var robotRightLeg = createRobot(new THREE.CylinderGeometry(1, 3, 12, 3, 20));
+                var robotLeftLeg = createRobot(new THREE.CylinderGeometry(1, 3, 12, 3, 20));
+
+
+//                var g_leftLegRotation = 0;
+//                var LIMB_MAX_ANGLE = 5;
+//                var LIMB_MOVEMENT_SPEED = 0.1;
+//                var ANGLE_STEP = 0.1;
 
 
                 //add it to the scene and position it
@@ -130,15 +147,25 @@
                 robotLeftHand.rotation.x = Math.PI / 2;
                 // scene.add(robotLeftHand);
 
+                robotRightLeg.position.x = -1.4;
+                robotRightLeg.position.y = 8;
+                robotRightLeg.position.z = 20;
+                //scene.add(robotRightLeg);
+
                 // scene.add(robotRightFoot);
-                robotRightFoot.position.x = -12;
-                robotRightFoot.position.y = 2;
-                robotRightFoot.position.z = 12;
+                robotRightFoot.position.x = -2.5;
+                robotRightFoot.position.y = 1;
+                robotRightFoot.position.z = 20;
+
+                robotLeftLeg.position.x = 1.4;
+                robotLeftLeg.position.y = 8;
+                robotLeftLeg.position.z = 20;
+                // scene.add(robotLeftLeg);
 
                 //scene.add(robotLeftFoot);
-                robotLeftFoot.position.x = 4;
-                robotLeftFoot.position.y = 2;
-                robotLeftFoot.position.z = 12;
+                robotLeftFoot.position.x = 2.5;
+                robotLeftFoot.position.y = 1;
+                robotLeftFoot.position.z = 20;
 
                 // scene.add(robotBody);
                 robotBody.position.x = 0;
@@ -157,14 +184,17 @@
                 robotRightShoulder.position.z = 20;
                 robotRightShoulder.rotation.x = Math.PI / 2;
 
+                //add the head and the body to the group
                 groupBody.add(robotBody);
                 groupBody.add(robotHead);
-
                 scene.add(groupBody);
-                groupBody.position.x = 0;
-                groupBody.position.y = 0;
-                groupBody.position.z = 20;
 
+                //position the group
+                groupBody.position.x = 0;
+                groupBody.position.y = 1.5;
+                groupBody.position.z = 0;
+
+                //add the arms to the groups
                 groupLeftArm.add(robotUpperLeftArm);
                 groupLeftArm.add(robotLowerLeftArm);
                 groupLeftArm.add(robotLeftHand);
@@ -175,19 +205,81 @@
                 groupRightArm.add(robotRightShoulder);
 
                 scene.add(groupRightArm);
+                //position the right arm group
                 groupRightArm.position.x = 0;
-                groupRightArm.position.y = 0;
-                groupRightArm.position.z = 20;
-                
+                groupRightArm.position.y = 1.5;
+                groupRightArm.position.z = 0;
+
                 scene.add(groupLeftArm);
+                //position the left arm group
                 groupLeftArm.position.x = 0;
-                groupLeftArm.position.y = 0;
-                groupLeftArm.position.z = 20;
+                groupLeftArm.position.y = 1.5;
+                groupLeftArm.position.z = 0;
+
+                //add left leg and foot to the group
+                groupLeftLeg.add(robotLeftLeg);
+                groupLeftLeg.add(robotLeftFoot);
+
+                scene.add(groupLeftLeg);
+                //position the left leg group
+                groupLeftLeg.position.x = 0;
+                groupLeftLeg.position.y = 0;
+                groupLeftLeg.position.z = 0;
+
+                //add right leg and foot to the group
+                groupRightLeg.add(robotRightLeg);
+                groupRightLeg.add(robotRightFoot);
+
+                scene.add(groupRightLeg);
+                //position the right leg group
+                groupRightLeg.position.x = 0;
+                groupRightLeg.position.y = 0;
+                groupRightLeg.position.z = 0;
 
                 // add ambient lighting which affects the scene.
                 var ambientLight = new THREE.DirectionalLight(0xFFFFF0, 0.4);
+                // ambientLight.castShadow = true;
                 scene.add(ambientLight);
 
+// rotate in its own origin -- https://stackoverflow.com/questions/28848863/threejs-how-to-rotate-around-objects-own-center-instead-of-world-center
+// check transformation matricex on google after
+// revolve, rotate, translate 
+                //key press actions
+                var keypress = new window.keypress.Listener();
+
+                //rotate the whole body clockwise when pressed left by certain amount
+                keypress.simple_combo("left", function () {
+                    groupBody.rotation.y -= 0.02;
+//                    groupLeftArm.rotation.y -= 0.02;
+//                    groupLeftLeg.rotation.y -= 0.02;
+//                    groupRightArm.rotation.y -= 0.02;
+//                    groupRightLeg.rotation.y -= 0.02;
+
+                });
+
+                //rotate the whole body anti-clockwise when pressed left by certain amount
+                keypress.simple_combo("right", function () {
+                    groupBody.rotation.y += 0.02;
+                    groupLeftArm.rotation.y += 0.02;
+                    groupLeftLeg.rotation.y += 0.02;
+                    groupRightArm.rotation.y += 0.02;
+                    groupRightLeg.rotation.y += 0.02;
+
+                });
+
+                keypress.simple_combo("up", function () {
+                    camera.position.y += 0.5;
+                    if (camera.position.y > 30) {
+                        camera.position.y = 30;
+                    }
+                });
+
+                keypress.simple_combo("down", function () {
+                    camera.position.y -= 0.5;
+                    if (camera.position.y < 5) {
+                        camera.position.y = 5;
+                    }
+                });
                 // add renderer to html element
                 $("#WebGL-output").append(renderer.domElement);
 
@@ -226,7 +318,16 @@
                     stats.update();
                     // render using requestAnimationFrame
                     requestAnimationFrame(render);
-                    //groupLeftArm.rotation.x += 0.005;
+
+                    //groupLeftLeg.position.y = g_leftLegRotation;
+
+                    // if (g_leftLegRotation < LIMB_MAX_ANGLE)
+                    // g_leftLegRotation += LIMB_MOVEMENT_SPEED * ANGLE_STEP;
+                    //groupLeftLeg.position.z += 0.2 * ANGLE_STEP;
+                    //groupLeftLeg.position.z += 0.05;
+
+                    //groupLeftLeg.rotation.x += Math.PI / 180;
+
                     renderer.render(scene, camera);
                 }
 

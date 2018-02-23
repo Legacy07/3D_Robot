@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>Coursework</title>
+        <link rel="shortcut icon" href="../favicon.ico">
+        <script type="text/javascript" src="../libs/three.js"></script>
+        <script type="text/javascript" src="../libs/jquery.js"></script>
+        <script type="text/javascript" src="../libs/stats.js"></script>
+        <script type="text/javascript" src="../libs/dat.gui.js"></script>
+        <style>
+            body{
+                /* set margin to 0 and overflow to hidden, to go fullscreen */
+                margin: 0;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="Stats-output">
+        </div>
+        <!-- Div which will hold the Output -->
+        <div id="WebGL-output">
+        </div>
+
+        <!-- Javascript code that runs our Three.js examples -->
+        <script type="text/javascript">
+
+            //run three.js methods
+            $(function () {
+                //run stats 
+                var stats = initStats();
+
+                // main scene that will hold everything
+                var scene = new THREE.Scene();
+
+                // camera needed to define the perspective
+                var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+                // position the camera
+                camera.position.x = 0;
+                camera.position.y = 25;
+                camera.position.z = 80;
+                //initiate the camera to the specified position
+                camera.lookAt(scene.position);
+
+                // need to render the scene to output 
+                var renderer = new THREE.WebGLRenderer();
+                //set and render the scene
+                renderer.setClearColor(0xEEEEEE, 1.0);
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.shadowMap.enabled = true;
+
+//                // create the ground geometry 
+                var groundGeometry = new THREE.PlaneGeometry(80, 500);
+                //set ground color and is affected by the light
+                var groundMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, side: THREE.DoubleSide});
+
+                //initiliase the ground 
+                var ground = new THREE.Mesh(groundGeometry, groundMaterial);
+                //allow to have shadows on it
+                ground.receiveShadow = true;
+                // rotate and position the plane
+                ground.rotation.x = -90 * Math.PI / 180;
+                // add the ground to the scene
+                scene.add(ground);
+
+                //group body
+                var groupBody = new THREE.Group();
+                //group arm 
+                var groupRightArm = new THREE.Group();
+                var groupLeftArm = new THREE.Group();
+
+
+                //create robot head, hands and feet
+                var robotHead = createRobot(new THREE.TorusGeometry(1, 2, 9, 16, 3));
+                var robotLeftHand = createRobot(new THREE.TorusGeometry(0.5, 2, 4, 20, 6));
+                var robotRightHand = createRobot(new THREE.TorusGeometry(0.5, 2, 4, 20, 6));
+                var robotRightFoot = createRobotFeet(new THREE.TorusKnotGeometry(1, 1, 139, 16, 2, 5, 5));
+                var robotLeftFoot = createRobotFeet(new THREE.TorusKnotGeometry(1, 1, 139, 16, 2, 5, 5));
+                //robot body
+                var robotBody = createRobot(new THREE.CylinderGeometry(5, 2, 11, 8, 20));
+                //robot shoulders
+                var robotRightShoulder = createRobot(new THREE.SphereGeometry(1.5, 4, 10));
+                var robotLeftShoulder = createRobot(new THREE.SphereGeometry(1.5, 4, 10));
+                //robot arms
+                var robotUpperLeftArm = createRobot(new THREE.CylinderGeometry(2, 1, 5, 20));
+                var robotUpperRightArm = createRobot(new THREE.CylinderGeometry(2, 1, 5, 20));
+                var robotLowerRightArm = createRobot(new THREE.CubeGeometry(3, 4, 3, 10, 10));
+                var robotLowerLeftArm = createRobot(new THREE.CubeGeometry(3, 4, 3, 10, 10));
+
+
+                //add it to the scene and position it
+                // scene.add(robotHead);
+                robotHead.castShadow = true;
+                robotHead.position.x = 0;
+                robotHead.position.y = 23;
+                robotHead.position.z = 20;
+
+                robotUpperRightArm.position.x = -6;
+                robotUpperRightArm.position.y = 19;
+                robotUpperRightArm.position.z = 20;
+                //scene.add(robotUpperRightArm);
+
+                robotLowerRightArm.position.x = -6;
+                robotLowerRightArm.position.y = 15;
+                robotLowerRightArm.position.z = 20;
+                //scene.add(robotLowerRightArm);
+
+                //scene.add(robotRightHand);
+                robotRightHand.position.x = -6;
+                robotRightHand.position.y = 12;
+                robotRightHand.position.z = 20;
+                robotRightHand.rotation.x = Math.PI / 2;
+
+                robotUpperLeftArm.position.x = 6;
+                robotUpperLeftArm.position.y = 19;
+                robotUpperLeftArm.position.z = 20;
+                //scene.add(robotUpperLeftArm);
+
+                robotLowerLeftArm.position.x = 6;
+                robotLowerLeftArm.position.y = 15;
+                robotLowerLeftArm.position.z = 20;
+                //scene.add(robotLowerLeftArm);
+
+                robotLeftHand.position.x = 6;
+                robotLeftHand.position.y = 12;
+                robotLeftHand.position.z = 20;
+                robotLeftHand.rotation.x = Math.PI / 2;
+                // scene.add(robotLeftHand);
+
+                // scene.add(robotRightFoot);
+                robotRightFoot.position.x = -12;
+                robotRightFoot.position.y = 2;
+                robotRightFoot.position.z = 12;
+
+                //scene.add(robotLeftFoot);
+                robotLeftFoot.position.x = 4;
+                robotLeftFoot.position.y = 2;
+                robotLeftFoot.position.z = 12;
+
+                // scene.add(robotBody);
+                robotBody.position.x = 0;
+                robotBody.position.y = 17;
+                robotBody.position.z = 20;
+
+                //scene.add(robotRightShoulder);
+                robotLeftShoulder.position.x = 6;
+                robotLeftShoulder.position.y = 22;
+                robotLeftShoulder.position.z = 20;
+                robotLeftShoulder.rotation.x = Math.PI / 2;
+
+                //scene.add(robotLeftShoulder);
+                robotRightShoulder.position.x = -6;
+                robotRightShoulder.position.y = 22;
+                robotRightShoulder.position.z = 20;
+                robotRightShoulder.rotation.x = Math.PI / 2;
+
+                groupBody.add(robotBody);
+                groupBody.add(robotHead);
+
+                scene.add(groupBody);
+                groupBody.position.x = 0;
+                groupBody.position.y = 0;
+                groupBody.position.z = 20;
+
+                groupLeftArm.add(robotUpperLeftArm);
+                groupLeftArm.add(robotLowerLeftArm);
+                groupLeftArm.add(robotLeftHand);
+                groupLeftArm.add(robotLeftShoulder);
+                groupRightArm.add(robotUpperRightArm);
+                groupRightArm.add(robotLowerRightArm);
+                groupRightArm.add(robotRightHand);
+                groupRightArm.add(robotRightShoulder);
+
+                scene.add(groupRightArm);
+                groupRightArm.position.x = 0;
+                groupRightArm.position.y = 0;
+                groupRightArm.position.z = 20;
+                
+                scene.add(groupLeftArm);
+                groupLeftArm.position.x = 0;
+                groupLeftArm.position.y = 0;
+                groupLeftArm.position.z = 20;
+
+                // add ambient lighting which affects the scene.
+                var ambientLight = new THREE.DirectionalLight(0xFFFFF0, 0.4);
+                scene.add(ambientLight);
+
+                // add renderer to html element
+                $("#WebGL-output").append(renderer.domElement);
+
+                //render the scene
+                render();
+
+                function createRobot(geom) {
+
+                    // assign two materials
+                    var meshMaterial = new THREE.MeshNormalMaterial();
+                    meshMaterial.side = THREE.DoubleSide;
+                    //basic material isnt affected by the light, lambert and phong materials are
+                    var wireFrameMat = new THREE.MeshBasicMaterial();
+                    wireFrameMat.wireframe = true;
+
+                    // create a multimaterial
+                    var mesh = THREE.SceneUtils.createMultiMaterialObject(geom, [meshMaterial, wireFrameMat]);
+
+                    return mesh;
+                }
+
+                function createRobotFeet(geom) {
+
+                    // assign two materials
+                    var meshMaterial = new THREE.MeshNormalMaterial({});
+                    meshMaterial.side = THREE.DoubleSide;
+
+                    // create a multimaterial
+                    var mesh = THREE.SceneUtils.createMultiMaterialObject(geom, [meshMaterial]);
+
+                    return mesh;
+                }
+                //draw scene
+                function render() {
+                    //update fps 
+                    stats.update();
+                    // render using requestAnimationFrame
+                    requestAnimationFrame(render);
+                    //groupLeftArm.rotation.x += 0.005;
+                    renderer.render(scene, camera);
+                }
+
+                //create stats to show fps 
+                function initStats() {
+
+                    var stats = new Stats();
+                    //shows fps, 1 is ms    
+                    stats.setMode(0);
+                    // Align it on top left corner 
+                    stats.domElement.style.position = 'absolute';
+                    stats.domElement.style.left = '0px';
+                    stats.domElement.style.top = '0px';
+                    //adds stats to the html element which is the div method in body
+                    $("#Stats-output").append(stats.domElement);
+                    return stats;
+                }
+            });
+
+        </script>
+    </body>
+</html>

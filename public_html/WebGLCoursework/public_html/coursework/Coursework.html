@@ -31,6 +31,9 @@
 
             //run three.js methods
             $(function () {
+
+                var maxRotation = 0;
+
                 //run stats 
                 var stats = initStats();
 
@@ -109,7 +112,7 @@
 
 
                 //add it to the scene and position it
-                // scene.add(robotHead);
+                scene.add(robotHead);
                 robotHead.castShadow = true;
                 robotHead.position.x = 0;
                 robotHead.position.y = 23;
@@ -118,14 +121,14 @@
                 robotUpperRightArm.position.x = -6;
                 robotUpperRightArm.position.y = 19;
                 robotUpperRightArm.position.z = 20;
-                //scene.add(robotUpperRightArm);
+                scene.add(robotUpperRightArm);
 
                 robotLowerRightArm.position.x = -6;
                 robotLowerRightArm.position.y = 15;
                 robotLowerRightArm.position.z = 20;
-                //scene.add(robotLowerRightArm);
+                scene.add(robotLowerRightArm);
 
-                //scene.add(robotRightHand);
+                scene.add(robotRightHand);
                 robotRightHand.position.x = -6;
                 robotRightHand.position.y = 12;
                 robotRightHand.position.z = 20;
@@ -134,25 +137,25 @@
                 robotUpperLeftArm.position.x = 6;
                 robotUpperLeftArm.position.y = 19;
                 robotUpperLeftArm.position.z = 20;
-                //scene.add(robotUpperLeftArm);
+                scene.add(robotUpperLeftArm);
 
                 robotLowerLeftArm.position.x = 6;
                 robotLowerLeftArm.position.y = 15;
                 robotLowerLeftArm.position.z = 20;
-                //scene.add(robotLowerLeftArm);
+                scene.add(robotLowerLeftArm);
 
                 robotLeftHand.position.x = 6;
                 robotLeftHand.position.y = 12;
                 robotLeftHand.position.z = 20;
                 robotLeftHand.rotation.x = Math.PI / 2;
-                // scene.add(robotLeftHand);
+                scene.add(robotLeftHand);
 
                 robotRightLeg.position.x = -1.4;
                 robotRightLeg.position.y = 8;
                 robotRightLeg.position.z = 20;
-                //scene.add(robotRightLeg);
+                scene.add(robotRightLeg);
 
-                // scene.add(robotRightFoot);
+                scene.add(robotRightFoot);
                 robotRightFoot.position.x = -2.5;
                 robotRightFoot.position.y = 1;
                 robotRightFoot.position.z = 20;
@@ -160,25 +163,25 @@
                 robotLeftLeg.position.x = 1.4;
                 robotLeftLeg.position.y = 8;
                 robotLeftLeg.position.z = 20;
-                // scene.add(robotLeftLeg);
+                scene.add(robotLeftLeg);
 
-                //scene.add(robotLeftFoot);
+                scene.add(robotLeftFoot);
                 robotLeftFoot.position.x = 2.5;
                 robotLeftFoot.position.y = 1;
                 robotLeftFoot.position.z = 20;
 
-                // scene.add(robotBody);
+                scene.add(robotBody);
                 robotBody.position.x = 0;
                 robotBody.position.y = 17;
                 robotBody.position.z = 20;
 
-                //scene.add(robotRightShoulder);
+                scene.add(robotRightShoulder);
                 robotLeftShoulder.position.x = 6;
                 robotLeftShoulder.position.y = 22;
                 robotLeftShoulder.position.z = 20;
                 robotLeftShoulder.rotation.x = Math.PI / 2;
 
-                //scene.add(robotLeftShoulder);
+                scene.add(robotLeftShoulder);
                 robotRightShoulder.position.x = -6;
                 robotRightShoulder.position.y = 22;
                 robotRightShoulder.position.z = 20;
@@ -249,7 +252,21 @@
 
                 //rotate the whole body clockwise when pressed left by certain amount
                 keypress.simple_combo("left", function () {
-                    groupBody.rotation.y -= 0.02;
+                    robotBody.rotation.y -= 0.04;
+                    robotHead.rotation.y -= 0.04;
+                    robotUpperLeftArm.rotation.y -= 0.04;
+                    robotLowerLeftArm.rotation.y -= 0.04;
+                    robotUpperRightArm.rotation.y -= 0.04;
+                    robotLowerRightArm.rotation.y -= 0.04;
+                    robotRightHand.rotation.z += 0.04;
+                    robotLeftHand.rotation.z += 0.04;
+                    robotLeftShoulder.rotation.z += 0.04;
+                    robotRightShoulder.rotation.z += 0.04;
+                    robotLeftLeg.rotation.y -= 0.04;
+                    robotRightLeg.rotation.y -= 0.04;
+                    robotRightFoot.rotation.y -= 0.04;
+                    robotLeftFoot.rotation.y -= 0.04;
+
 //                    groupLeftArm.rotation.y -= 0.02;
 //                    groupLeftLeg.rotation.y -= 0.02;
 //                    groupRightArm.rotation.y -= 0.02;
@@ -259,25 +276,175 @@
 
                 //rotate the whole body anti-clockwise when pressed left by certain amount
                 keypress.simple_combo("right", function () {
-                    groupBody.rotation.y += 0.02;
-                    groupLeftArm.rotation.y += 0.02;
-                    groupLeftLeg.rotation.y += 0.02;
-                    groupRightArm.rotation.y += 0.02;
-                    groupRightLeg.rotation.y += 0.02;
+                    robotBody.rotation.y += 0.04;
+                    robotHead.rotation.y += 0.04;
+                    robotUpperLeftArm.rotation.y += 0.04;
+                    robotLowerLeftArm.rotation.y += 0.04;
+                    robotUpperRightArm.rotation.y += 0.04;
+                    robotLowerRightArm.rotation.y += 0.04;
+                    robotRightHand.rotation.z -= 0.04;
+                    robotLeftHand.rotation.z -= 0.04;
+                    robotLeftShoulder.rotation.z -= 0.04;
+                    robotRightShoulder.rotation.z -= 0.04;
+                    robotLeftLeg.rotation.y += 0.04;
+                    robotRightLeg.rotation.y += 0.04;
+                    robotRightFoot.rotation.y += 0.04;
+                    robotLeftFoot.rotation.y += 0.04;
 
                 });
-
+                //animate the legs and the body to walk forward
                 keypress.simple_combo("up", function () {
-                    camera.position.y += 0.5;
-                    if (camera.position.y > 30) {
-                        camera.position.y = 30;
-                    }
-                });
+                    // camera.position.y += 0.5;
+                    // if (camera.position.y > 30) {
+//                        camera.position.y = 30;
+//                    }
+                    //CHECK IT L8 for rotation for a group -- https://stackoverflow.com/questions/28848863/threejs-how-to-rotate-around-objects-own-center-instead-of-world-center
+                    maxRotation = -0.80;
 
+                    //left leg moves forward 
+                    robotLeftLeg.rotation.x -= 0.04;
+                    robotLeftFoot.rotation.x -= 0.04;
+
+                    robotLeftLeg.position.z += 0.04;
+                    robotLeftFoot.position.z += 0.04;
+
+                    //right leg goes backwards
+                    robotRightLeg.rotation.x += 0.04;
+                    robotRightFoot.rotation.x += 0.04;
+
+                    robotRightLeg.position.z -= 0.04;
+                    robotRightFoot.position.z -= 0.04;
+
+                    //right arm moves forward
+                    robotUpperRightArm.rotation.x -= 0.04;
+                    robotLowerRightArm.rotation.x -= 0.04;
+                    robotRightHand.rotation.x -= 0.04;
+                    robotRightShoulder.rotation.x -= 0.04;
+
+                    groupRightArm.position.z += 0.04;
+
+                    //left arm moves back
+                    robotUpperLeftArm.rotation.x += 0.04;
+                    robotLowerLeftArm.rotation.x += 0.04;
+                    robotLeftHand.rotation.x += 0.04;
+                    robotLeftShoulder.rotation.x += 0.04;
+
+                    groupLeftArm.position.z += 0.04;
+
+                    //the body and the head moves forward
+                    robotHead.position.z += 0.04;
+                    robotBody.position.z += 0.04;
+
+                    if (robotLeftLeg.rotation.x <= maxRotation) {
+                        //reset the values 
+                        maxRotation = 0;
+
+                        robotLeftLeg.rotation.x += 0.04;
+                        robotLeftFoot.rotation.x += 0.04;
+
+                        robotLeftLeg.position.z -= 0.04;
+                        robotLeftFoot.position.z -= 0.04;
+
+                        robotRightLeg.rotation.x -= 0.04;
+                        robotRightFoot.rotation.x -= 0.04;
+
+                        robotRightLeg.position.z += 0.04;
+                        robotRightFoot.position.z += 0.04;
+
+                        robotUpperRightArm.rotation.x += 0.04;
+                        robotLowerRightArm.rotation.x += 0.04;
+                        robotRightHand.rotation.x += 0.04;
+                        robotRightShoulder.rotation.x += 0.04;
+
+                        groupRightArm.position.z -= 0.04;
+
+                        robotUpperLeftArm.rotation.x -= 0.04;
+                        robotLowerLeftArm.rotation.x -= 0.04;
+                        robotLeftHand.rotation.x -= 0.04;
+                        robotLeftShoulder.rotation.x -= 0.04;
+
+                        groupLeftArm.position.z -= 0.04;
+
+                        robotHead.position.z -= 0.04;
+                        robotBody.position.z -= 0.04;
+
+                    }
+
+                }
+                );
+                //animate the legs and the body to walk backwards
                 keypress.simple_combo("down", function () {
-                    camera.position.y -= 0.5;
-                    if (camera.position.y < 5) {
-                        camera.position.y = 5;
+//                    camera.position.y -= 0.5;
+//                    if (camera.position.y < 5) {
+//                        camera.position.y = 5;
+//                    }
+
+                    maxRotation = 0.80;
+                    //left leg moves backwards 
+                    robotLeftLeg.rotation.x += 0.04;
+                    robotLeftFoot.rotation.x += 0.04;
+
+                    robotLeftLeg.position.z -= 0.04;
+                    robotLeftFoot.position.z -= 0.04;
+
+                    //right leg goes forward
+                    robotRightLeg.rotation.x -= 0.04;
+                    robotRightFoot.rotation.x -= 0.04;
+
+                    robotRightLeg.position.z += 0.04;
+                    robotRightFoot.position.z += 0.04;
+
+                    //left arm moves forward
+                    robotUpperLeftArm.rotation.x -= 0.04;
+                    robotLowerLeftArm.rotation.x -= 0.04;
+                    robotLeftHand.rotation.x -= 0.04;
+                    robotLeftShoulder.rotation.x -= 0.04;
+
+                    groupLeftArm.position.z -= 0.04;
+
+                    //right arm moves backward
+                    robotUpperRightArm.rotation.x += 0.04;
+                    robotLowerRightArm.rotation.x += 0.04;
+                    robotRightHand.rotation.x += 0.04;
+                    robotRightShoulder.rotation.x += 0.04;
+
+                    groupRightArm.position.z -= 0.04;
+
+                    //the body and the head moves backward
+                    robotHead.position.z -= 0.04;
+                    robotBody.position.z -= 0.04;
+
+                    if (robotLeftLeg.rotation.x >= maxRotation) {
+                        //reset the values
+                        maxRotation = 0;
+                        robotLeftLeg.rotation.x -= 0.04;
+                        robotLeftFoot.rotation.x -= 0.04;
+
+                        robotLeftLeg.position.z += 0.04;
+                        robotLeftFoot.position.z += 0.04;
+
+                        robotRightLeg.rotation.x += 0.04;
+                        robotRightFoot.rotation.x += 0.04;
+
+                        robotRightLeg.position.z -= 0.04;
+                        robotRightFoot.position.z -= 0.04;
+
+                        robotUpperLeftArm.rotation.x += 0.04;
+                        robotLowerLeftArm.rotation.x += 0.04;
+                        robotLeftHand.rotation.x += 0.04;
+                        robotLeftShoulder.rotation.x += 0.04;
+
+                        groupLeftArm.position.z += 0.04;
+
+                        robotUpperRightArm.rotation.x -= 0.04;
+                        robotLowerRightArm.rotation.x -= 0.04;
+                        robotRightHand.rotation.x -= 0.04;
+                        robotRightShoulder.rotation.x -= 0.04;
+
+                        groupRightArm.position.z += 0.04;
+
+                        robotHead.position.z += 0.04;
+                        robotBody.position.z += 0.04;
                     }
                 });
                 // add renderer to html element

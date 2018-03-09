@@ -33,13 +33,10 @@
             $(function () {
 
                 var maxRotation = 0;
-
                 //run stats 
                 var stats = initStats();
-
                 // main scene that will hold everything
                 var scene = new THREE.Scene();
-
                 // camera needed to define the perspective
                 var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
                 // position the camera
@@ -48,14 +45,12 @@
                 camera.position.z = 80;
                 //initiate the camera to the specified position
                 camera.lookAt(scene.position);
-
                 // need to render the scene to output 
                 var renderer = new THREE.WebGLRenderer();
                 //set and render the scene
                 renderer.setClearColor(0xEEEEEE, 1.0);
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 renderer.shadowMap.enabled = true;
-
 //                // create the ground geometry 
                 var groundGeometry = new THREE.PlaneGeometry(80, 500, 40, 250);
                 //set ground color and is affected by the light
@@ -74,7 +69,6 @@
                 ground.rotation.x = -90 * Math.PI / 180;
                 // add the ground to the scene
                 scene.add(ground);
-
                 //group body
                 var groupBody = new THREE.Group();
                 //group arms 
@@ -83,7 +77,6 @@
                 //group legs 
                 var groupRightLeg = new THREE.Group();
                 var groupLeftLeg = new THREE.Group();
-
                 //create robot head, hands and feet
                 var robotHead = createRobot(new THREE.TorusGeometry(1, 2, 9, 16, 3));
                 var robotLeftHand = createRobot(new THREE.TorusGeometry(0.5, 2, 4, 20, 6));
@@ -103,8 +96,6 @@
                 //robot legs
                 var robotRightLeg = createRobot(new THREE.CylinderGeometry(1, 3, 12, 3, 20));
                 var robotLeftLeg = createRobot(new THREE.CylinderGeometry(1, 3, 12, 3, 20));
-
-
 //                var g_leftLegRotation = 0;
 //                var LIMB_MAX_ANGLE = 5;
 //                var LIMB_MOVEMENT_SPEED = 0.1;
@@ -117,86 +108,70 @@
                 robotHead.position.x = 0;
                 robotHead.position.y = 23;
                 robotHead.position.z = 20;
-
                 robotUpperRightArm.position.x = -6;
                 robotUpperRightArm.position.y = 19;
                 robotUpperRightArm.position.z = 20;
                 scene.add(robotUpperRightArm);
-
                 robotLowerRightArm.position.x = -6;
                 robotLowerRightArm.position.y = 15;
                 robotLowerRightArm.position.z = 20;
                 scene.add(robotLowerRightArm);
-
                 scene.add(robotRightHand);
                 robotRightHand.position.x = -6;
                 robotRightHand.position.y = 12;
                 robotRightHand.position.z = 20;
                 robotRightHand.rotation.x = Math.PI / 2;
-
                 robotUpperLeftArm.position.x = 6;
                 robotUpperLeftArm.position.y = 19;
                 robotUpperLeftArm.position.z = 20;
                 scene.add(robotUpperLeftArm);
-
                 robotLowerLeftArm.position.x = 6;
                 robotLowerLeftArm.position.y = 15;
                 robotLowerLeftArm.position.z = 20;
                 scene.add(robotLowerLeftArm);
-
                 robotLeftHand.position.x = 6;
                 robotLeftHand.position.y = 12;
                 robotLeftHand.position.z = 20;
                 robotLeftHand.rotation.x = Math.PI / 2;
                 scene.add(robotLeftHand);
-
                 robotRightLeg.position.x = -1.4;
                 robotRightLeg.position.y = 8;
                 robotRightLeg.position.z = 20;
                 scene.add(robotRightLeg);
-
                 scene.add(robotRightFoot);
                 robotRightFoot.position.x = -2.5;
                 robotRightFoot.position.y = 1;
                 robotRightFoot.position.z = 20;
-
                 robotLeftLeg.position.x = 1.4;
                 robotLeftLeg.position.y = 8;
                 robotLeftLeg.position.z = 20;
                 scene.add(robotLeftLeg);
-
                 scene.add(robotLeftFoot);
                 robotLeftFoot.position.x = 2.5;
                 robotLeftFoot.position.y = 1;
                 robotLeftFoot.position.z = 20;
-
                 scene.add(robotBody);
                 robotBody.position.x = 0;
                 robotBody.position.y = 17;
                 robotBody.position.z = 20;
-
                 scene.add(robotRightShoulder);
                 robotLeftShoulder.position.x = 6;
                 robotLeftShoulder.position.y = 22;
                 robotLeftShoulder.position.z = 20;
                 robotLeftShoulder.rotation.x = Math.PI / 2;
-
                 scene.add(robotLeftShoulder);
                 robotRightShoulder.position.x = -6;
                 robotRightShoulder.position.y = 22;
                 robotRightShoulder.position.z = 20;
                 robotRightShoulder.rotation.x = Math.PI / 2;
-
                 //add the head and the body to the group
                 groupBody.add(robotBody);
                 groupBody.add(robotHead);
                 scene.add(groupBody);
-
                 //position the group
                 groupBody.position.x = 0;
                 groupBody.position.y = 1.5;
                 groupBody.position.z = 0;
-
                 //add the arms to the groups
                 groupLeftArm.add(robotUpperLeftArm);
                 groupLeftArm.add(robotLowerLeftArm);
@@ -206,50 +181,45 @@
                 groupRightArm.add(robotLowerRightArm);
                 groupRightArm.add(robotRightHand);
                 groupRightArm.add(robotRightShoulder);
-
                 scene.add(groupRightArm);
                 //position the right arm group
                 groupRightArm.position.x = 0;
                 groupRightArm.position.y = 1.5;
                 groupRightArm.position.z = 0;
-
                 scene.add(groupLeftArm);
                 //position the left arm group
                 groupLeftArm.position.x = 0;
                 groupLeftArm.position.y = 1.5;
                 groupLeftArm.position.z = 0;
-
                 //add left leg and foot to the group
                 groupLeftLeg.add(robotLeftLeg);
                 groupLeftLeg.add(robotLeftFoot);
-
                 scene.add(groupLeftLeg);
                 //position the left leg group
                 groupLeftLeg.position.x = 0;
                 groupLeftLeg.position.y = 0;
                 groupLeftLeg.position.z = 0;
-
                 //add right leg and foot to the group
                 groupRightLeg.add(robotRightLeg);
                 groupRightLeg.add(robotRightFoot);
-
                 scene.add(groupRightLeg);
                 //position the right leg group
                 groupRightLeg.position.x = 0;
                 groupRightLeg.position.y = 0;
                 groupRightLeg.position.z = 0;
-
                 // add ambient lighting which affects the scene.
                 var ambientLight = new THREE.DirectionalLight(0xFFFFF0, 0.4);
                 // ambientLight.castShadow = true;
                 scene.add(ambientLight);
-
-// rotate in its own origin -- https://stackoverflow.com/questions/28848863/threejs-how-to-rotate-around-objects-own-center-instead-of-world-center
-// check transformation matricex on google after
-// revolve, rotate, translate 
+                // var vector = null;
+                var leftLegForward = false;
+                var rightLegForward = false;
+                var robotForward = true;
+                // rotate in its own origin -- https://stackoverflow.com/questions/28848863/threejs-how-to-rotate-around-objects-own-center-instead-of-world-center
+                // check transformation matricex on google after
+                // revolve, rotate, translate 
                 //key press actions
                 var keypress = new window.keypress.Listener();
-
                 //rotate the whole body clockwise when pressed left by certain amount
                 keypress.simple_combo("left", function () {
                     robotBody.rotation.y -= 0.04;
@@ -266,14 +236,12 @@
                     robotRightLeg.rotation.y -= 0.04;
                     robotRightFoot.rotation.y -= 0.04;
                     robotLeftFoot.rotation.y -= 0.04;
-
 //                    groupLeftArm.rotation.y -= 0.02;
 //                    groupLeftLeg.rotation.y -= 0.02;
 //                    groupRightArm.rotation.y -= 0.02;
 //                    groupRightLeg.rotation.y -= 0.02;
 
                 });
-
                 //rotate the whole body anti-clockwise when pressed left by certain amount
                 keypress.simple_combo("right", function () {
                     robotBody.rotation.y += 0.04;
@@ -290,7 +258,6 @@
                     robotRightLeg.rotation.y += 0.04;
                     robotRightFoot.rotation.y += 0.04;
                     robotLeftFoot.rotation.y += 0.04;
-
                 });
                 //animate the legs and the body to walk forward
                 keypress.simple_combo("up", function () {
@@ -299,76 +266,142 @@
 //                        camera.position.y = 30;
 //                    }
                     //CHECK IT L8 for rotation for a group -- https://stackoverflow.com/questions/28848863/threejs-how-to-rotate-around-objects-own-center-instead-of-world-center
-                    maxRotation = -0.80;
+                    if (robotForward) {
+                        leftLegForward = !leftLegForward;
+                        rightLegForward = !rightLegForward;
+                        robotForward = !robotForward;
+                    }
+                    if (leftLegForward) {
+                        maxRotation = -0.80;
+//                        //left leg moves forward 
+//                        robotLeftLeg.rotation.x -= 0.04;
+//                        robotLeftFoot.rotation.x -= 0.04;
+//
+//                        robotLeftLeg.position.z += 0.04;
+//                        robotLeftFoot.position.z += 0.04;
+//
+//                        //right leg goes backwards
+//                        robotRightLeg.rotation.x += 0.04;
+//                        robotRightFoot.rotation.x += 0.04;
+//
+//                        robotRightLeg.position.z -= 0.04;
+//                        robotRightFoot.position.z -= 0.04;
+//
+//                        //right arm moves forward
+//                        robotUpperRightArm.rotation.x -= 0.04;
+//                        robotLowerRightArm.rotation.x -= 0.04;
+//                        robotRightHand.rotation.x -= 0.04;
+//                        robotRightShoulder.rotation.x -= 0.04;
+//
+//                        groupRightArm.position.z += 0.04;
+//
+//                        //left arm moves back
+//                        robotUpperLeftArm.rotation.x += 0.04;
+//                        robotLowerLeftArm.rotation.x += 0.04;
+//                        robotLeftHand.rotation.x += 0.04;
+//                        robotLeftShoulder.rotation.x += 0.04;
+//
+//                        groupLeftArm.position.z += 0.04;
+//
+//                        //the body and the head moves forward
+//                        robotHead.position.z += 0.04;
+//                        robotBody.position.z += 0.04;
+//
 
-                    //left leg moves forward 
-                    robotLeftLeg.rotation.x -= 0.04;
-                    robotLeftFoot.rotation.x -= 0.04;
+                        if (robotLeftLeg.rotation.x >= maxRotation) {
 
-                    robotLeftLeg.position.z += 0.04;
-                    robotLeftFoot.position.z += 0.04;
+////                          //reset the values 
+//                            maxRotation = 0;
+//
+//                            robotLeftLeg.rotation.x += 0.04;
+//                            robotLeftFoot.rotation.x += 0.04;
+//
+//                            robotLeftLeg.position.z -= 0.04;
+//                            robotLeftFoot.position.z -= 0.04;
+//
+//                            robotRightLeg.rotation.x -= 0.04;
+//                            robotRightFoot.rotation.x -= 0.04;
+//
+//                            robotRightLeg.position.z += 0.04;
+//                            robotRightFoot.position.z += 0.04;
+//
+//                            robotUpperRightArm.rotation.x += 0.04;
+//                            robotLowerRightArm.rotation.x += 0.04;
+//                            robotRightHand.rotation.x += 0.04;
+//                            robotRightShoulder.rotation.x += 0.04;
+//
+//                            groupRightArm.position.z -= 0.04;
+//
+//                            robotUpperLeftArm.rotation.x -= 0.04;
+//                            robotLowerLeftArm.rotation.x -= 0.04;
+//                            robotLeftHand.rotation.x -= 0.04;
+//                            robotLeftShoulder.rotation.x -= 0.04;
+//
+//                            groupLeftArm.position.z -= 0.04;
+//
+//                            robotHead.position.z -= 0.04;
+//                            robotBody.position.z -= 0.04;
 
-                    //right leg goes backwards
-                    robotRightLeg.rotation.x += 0.04;
-                    robotRightFoot.rotation.x += 0.04;
-
-                    robotRightLeg.position.z -= 0.04;
-                    robotRightFoot.position.z -= 0.04;
-
-                    //right arm moves forward
-                    robotUpperRightArm.rotation.x -= 0.04;
-                    robotLowerRightArm.rotation.x -= 0.04;
-                    robotRightHand.rotation.x -= 0.04;
-                    robotRightShoulder.rotation.x -= 0.04;
-
-                    groupRightArm.position.z += 0.04;
-
-                    //left arm moves back
-                    robotUpperLeftArm.rotation.x += 0.04;
-                    robotLowerLeftArm.rotation.x += 0.04;
-                    robotLeftHand.rotation.x += 0.04;
-                    robotLeftShoulder.rotation.x += 0.04;
-
-                    groupLeftArm.position.z += 0.04;
-
-                    //the body and the head moves forward
-                    robotHead.position.z += 0.04;
-                    robotBody.position.z += 0.04;
-
-                    if (robotLeftLeg.rotation.x <= maxRotation) {
-                        //reset the values 
-                        maxRotation = 0;
-
-                        robotLeftLeg.rotation.x += 0.04;
-                        robotLeftFoot.rotation.x += 0.04;
-
-                        robotLeftLeg.position.z -= 0.04;
-                        robotLeftFoot.position.z -= 0.04;
-
-                        robotRightLeg.rotation.x -= 0.04;
-                        robotRightFoot.rotation.x -= 0.04;
-
-                        robotRightLeg.position.z += 0.04;
-                        robotRightFoot.position.z += 0.04;
-
-                        robotUpperRightArm.rotation.x += 0.04;
-                        robotLowerRightArm.rotation.x += 0.04;
-                        robotRightHand.rotation.x += 0.04;
-                        robotRightShoulder.rotation.x += 0.04;
-
-                        groupRightArm.position.z -= 0.04;
-
-                        robotUpperLeftArm.rotation.x -= 0.04;
-                        robotLowerLeftArm.rotation.x -= 0.04;
-                        robotLeftHand.rotation.x -= 0.04;
-                        robotLeftShoulder.rotation.x -= 0.04;
-
-                        groupLeftArm.position.z -= 0.04;
-
-                        robotHead.position.z -= 0.04;
-                        robotBody.position.z -= 0.04;
+                            //left leg moves forward 
+                            robotLeftLeg.rotation.x -= 0.04;
+                            robotLeftFoot.rotation.x -= 0.04;
+                            robotLeftLeg.position.z += 0.04;
+                            robotLeftFoot.position.z += 0.04;
+                            //right leg goes backwards
+                            robotRightLeg.rotation.x += 0.04;
+                            robotRightFoot.rotation.x += 0.04;
+                            robotRightLeg.position.z -= 0.04;
+                            robotRightFoot.position.z -= 0.04;
+                            //right arm moves forward
+                            robotUpperRightArm.rotation.x -= 0.04;
+                            robotLowerRightArm.rotation.x -= 0.04;
+                            robotRightHand.rotation.x -= 0.04;
+                            robotRightShoulder.rotation.x -= 0.04;
+                            groupRightArm.position.z += 0.04;
+                            //left arm moves back
+                            robotUpperLeftArm.rotation.x += 0.04;
+                            robotLowerLeftArm.rotation.x += 0.04;
+                            robotLeftHand.rotation.x += 0.04;
+                            robotLeftShoulder.rotation.x += 0.04;
+                            groupLeftArm.position.z += 0.04;
+                            //the body and the head moves forward
+                            robotHead.position.z += 0.04;
+                            robotBody.position.z += 0.04;
+//
+                        } else {
+                            leftLegForward = false;
+                        }
 
                     }
+                    if (!leftLegForward) {
+                        if (robotLeftLeg.rotation.x <= maxRotation) {
+                            maxRotation = 0.40;
+
+                            robotLeftLeg.rotation.x += 0.04;
+                            robotLeftFoot.rotation.x += 0.04;
+                            robotLeftLeg.position.z -= 0.04;
+                            robotLeftFoot.position.z -= 0.04;
+                            robotRightLeg.rotation.x -= 0.04;
+                            robotRightFoot.rotation.x -= 0.04;
+                            robotRightLeg.position.z += 0.04;
+                            robotRightFoot.position.z += 0.04;
+                            robotUpperRightArm.rotation.x += 0.04;
+                            robotLowerRightArm.rotation.x += 0.04;
+                            robotRightHand.rotation.x += 0.04;
+                            robotRightShoulder.rotation.x += 0.04;
+                            groupRightArm.position.z -= 0.04;
+                            robotUpperLeftArm.rotation.x -= 0.04;
+                            robotLowerLeftArm.rotation.x -= 0.04;
+                            robotLeftHand.rotation.x -= 0.04;
+                            robotLeftShoulder.rotation.x -= 0.04;
+                            groupLeftArm.position.z -= 0.04;
+                            robotHead.position.z -= 0.04;
+                            robotBody.position.z -= 0.04;
+                        } else {
+                            leftLegForward = true;
+                        }
+                    }
+
 
                 }
                 );
@@ -378,81 +411,129 @@
 //                    if (camera.position.y < 5) {
 //                        camera.position.y = 5;
 //                    }
+                    if (!robotForward) {
+                        rightLegForward = !rightLegForward;
+                        rightLegForward = !rightLegForward;
+                        robotForward = !robotForward;
+                    }
+                    if (rightLegForward) {
 
-                    maxRotation = 0.80;
-                    //left leg moves backwards 
-                    robotLeftLeg.rotation.x += 0.04;
-                    robotLeftFoot.rotation.x += 0.04;
+//                        maxRotation = -0.80;
+                        maxRotation = 0.80;
+//                        //left leg moves backwards 
+//                        robotLeftLeg.rotation.x += 0.04;
+//                        robotLeftFoot.rotation.x += 0.04;
+//                        robotLeftLeg.position.z -= 0.04;
+//                        robotLeftFoot.position.z -= 0.04;
+//                        //right leg goes forward
+//                        robotRightLeg.rotation.x -= 0.04;
+//                        robotRightFoot.rotation.x -= 0.04;
+//                        robotRightLeg.position.z += 0.04;
+//                        robotRightFoot.position.z += 0.04;
+//                        //left arm moves forward
+//                        robotUpperLeftArm.rotation.x -= 0.04;
+//                        robotLowerLeftArm.rotation.x -= 0.04;
+//                        robotLeftHand.rotation.x -= 0.04;
+//                        robotLeftShoulder.rotation.x -= 0.04;
+//                        groupLeftArm.position.z -= 0.04;
+//                        //right arm moves backward
+//                        robotUpperRightArm.rotation.x += 0.04;
+//                        robotLowerRightArm.rotation.x += 0.04;
+//                        robotRightHand.rotation.x += 0.04;
+//                        robotRightShoulder.rotation.x += 0.04;
+//                        groupRightArm.position.z -= 0.04;
+//                        //the body and the head moves backward
+//                        robotHead.position.z -= 0.04;
+//                        robotBody.position.z -= 0.04;
 
-                    robotLeftLeg.position.z -= 0.04;
-                    robotLeftFoot.position.z -= 0.04;
+                        if (robotRightLeg.rotation.x >= maxRotation) {
 
-                    //right leg goes forward
-                    robotRightLeg.rotation.x -= 0.04;
-                    robotRightFoot.rotation.x -= 0.04;
+                            //reset the values
+//                            robotLeftLeg.rotation.x -= 0.04;
+//                            robotLeftFoot.rotation.x -= 0.04;
+//                            robotLeftLeg.position.z += 0.04;
+//                            robotLeftFoot.position.z += 0.04;
+//                            robotRightLeg.rotation.x += 0.04;
+//                            robotRightFoot.rotation.x += 0.04;
+//                            robotRightLeg.position.z -= 0.04;
+//                            robotRightFoot.position.z -= 0.04;
+//                            robotUpperLeftArm.rotation.x += 0.04;
+//                            robotLowerLeftArm.rotation.x += 0.04;
+//                            robotLeftHand.rotation.x += 0.04;
+//                            robotLeftShoulder.rotation.x += 0.04;
+//                            groupLeftArm.position.z += 0.04;
+//                            robotUpperRightArm.rotation.x -= 0.04;
+//                            robotLowerRightArm.rotation.x -= 0.04;
+//                            robotRightHand.rotation.x -= 0.04;
+//                            robotRightShoulder.rotation.x -= 0.04;
+//                            groupRightArm.position.z += 0.04;
+//                            robotHead.position.z += 0.04;
+//                            robotBody.position.z += 0.04;
 
-                    robotRightLeg.position.z += 0.04;
-                    robotRightFoot.position.z += 0.04;
 
-                    //left arm moves forward
-                    robotUpperLeftArm.rotation.x -= 0.04;
-                    robotLowerLeftArm.rotation.x -= 0.04;
-                    robotLeftHand.rotation.x -= 0.04;
-                    robotLeftShoulder.rotation.x -= 0.04;
+                            //left leg moves backwards 
+                            robotLeftLeg.rotation.x += 0.04;
+                            robotLeftFoot.rotation.x += 0.04;
+                            robotLeftLeg.position.z -= 0.04;
+                            robotLeftFoot.position.z -= 0.04;
+                            //right leg goes forward
+                            robotRightLeg.rotation.x -= 0.04;
+                            robotRightFoot.rotation.x -= 0.04;
+                            robotRightLeg.position.z += 0.04;
+                            robotRightFoot.position.z += 0.04;
+                            //left arm moves forward
+                            robotUpperLeftArm.rotation.x -= 0.04;
+                            robotLowerLeftArm.rotation.x -= 0.04;
+                            robotLeftHand.rotation.x -= 0.04;
+                            robotLeftShoulder.rotation.x -= 0.04;
+                            groupLeftArm.position.z -= 0.04;
+                            //right arm moves backward
+                            robotUpperRightArm.rotation.x += 0.04;
+                            robotLowerRightArm.rotation.x += 0.04;
+                            robotRightHand.rotation.x += 0.04;
+                            robotRightShoulder.rotation.x += 0.04;
+                            groupRightArm.position.z -= 0.04;
+                            //the body and the head moves backward
+                            robotHead.position.z -= 0.04;
+                            robotBody.position.z -= 0.04;
+                        } else
+                        {
+                            rightLegForward = false;
+                        }
 
-                    groupLeftArm.position.z -= 0.04;
+                    }
+                    if (!rightLegForward) {
 
-                    //right arm moves backward
-                    robotUpperRightArm.rotation.x += 0.04;
-                    robotLowerRightArm.rotation.x += 0.04;
-                    robotRightHand.rotation.x += 0.04;
-                    robotRightShoulder.rotation.x += 0.04;
-
-                    groupRightArm.position.z -= 0.04;
-
-                    //the body and the head moves backward
-                    robotHead.position.z -= 0.04;
-                    robotBody.position.z -= 0.04;
-
-                    if (robotLeftLeg.rotation.x >= maxRotation) {
-                        //reset the values
                         maxRotation = 0;
                         robotLeftLeg.rotation.x -= 0.04;
                         robotLeftFoot.rotation.x -= 0.04;
-
                         robotLeftLeg.position.z += 0.04;
                         robotLeftFoot.position.z += 0.04;
-
                         robotRightLeg.rotation.x += 0.04;
                         robotRightFoot.rotation.x += 0.04;
-
                         robotRightLeg.position.z -= 0.04;
                         robotRightFoot.position.z -= 0.04;
-
                         robotUpperLeftArm.rotation.x += 0.04;
                         robotLowerLeftArm.rotation.x += 0.04;
                         robotLeftHand.rotation.x += 0.04;
                         robotLeftShoulder.rotation.x += 0.04;
-
                         groupLeftArm.position.z += 0.04;
-
                         robotUpperRightArm.rotation.x -= 0.04;
                         robotLowerRightArm.rotation.x -= 0.04;
                         robotRightHand.rotation.x -= 0.04;
                         robotRightShoulder.rotation.x -= 0.04;
-
                         groupRightArm.position.z += 0.04;
-
                         robotHead.position.z += 0.04;
                         robotBody.position.z += 0.04;
+
+                    } else {
+                        rightLegForward = true;
                     }
                 });
                 // add renderer to html element
                 $("#WebGL-output").append(renderer.domElement);
-
                 //render the scene
                 render();
-
                 function createRobot(geom) {
 
                     // assign two materials
@@ -461,10 +542,8 @@
                     //basic material isnt affected by the light, lambert and phong materials are
                     var wireFrameMat = new THREE.MeshBasicMaterial();
                     wireFrameMat.wireframe = true;
-
                     // create a multimaterial
                     var mesh = THREE.SceneUtils.createMultiMaterialObject(geom, [meshMaterial, wireFrameMat]);
-
                     return mesh;
                 }
 
@@ -473,10 +552,8 @@
                     // assign two materials
                     var meshMaterial = new THREE.MeshNormalMaterial({});
                     meshMaterial.side = THREE.DoubleSide;
-
                     // create a multimaterial
                     var mesh = THREE.SceneUtils.createMultiMaterialObject(geom, [meshMaterial]);
-
                     return mesh;
                 }
                 //draw scene
@@ -485,7 +562,6 @@
                     stats.update();
                     // render using requestAnimationFrame
                     requestAnimationFrame(render);
-
                     //groupLeftLeg.position.y = g_leftLegRotation;
 
                     // if (g_leftLegRotation < LIMB_MAX_ANGLE)
@@ -497,6 +573,7 @@
 
                     renderer.render(scene, camera);
                 }
+
 
                 //create stats to show fps 
                 function initStats() {
